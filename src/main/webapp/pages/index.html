@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Drive</title>
+    <link rel="shortcut icon" type="image/png" href="/fav.png"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/idx.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+    <script src="/idx.js"></script>
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div class="container">
+    <div class="header">
+        <form class="form" id="form" action="/files/upload" enctype="multipart/form-data" method="POST">
+            <input type="file" id="files" class="upload" name="files[]" multiple/>
+        </form>
+        <button id="delete" type="submit">Delete</button>
+        <button id="download" type="submit">Download</button>
+        <button class="right-button" type="submit" onclick="window.location = '/logout'">Logout</button>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="check-box-column"><input type="checkbox" id="checkAll"></th>
+                    <th class="name-column">Name</th>
+                    <th class="date-column">Date</th>
+                    <th class="size-column">Size</th>
+                </tr>
+                </thead>
+                <tbody id="list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <nav id="pages">
+    </nav>
+</div>
+</body>
+</html>
