@@ -36,7 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/log.css", "/log.js", "/fav.png").permitAll()
                 .anyRequest().authenticated()
-                .antMatchers("/admin", "/delete").hasRole("ADMIN")
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/")

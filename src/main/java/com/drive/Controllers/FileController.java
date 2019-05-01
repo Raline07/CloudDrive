@@ -40,7 +40,7 @@ public class FileController {
 
     @GetMapping("/")
     public String index() {
-        return "/pages/index.html";
+        return "index";
     }
 
     @PostMapping("/files/upload")
