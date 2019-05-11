@@ -3,7 +3,9 @@ package com.example.clouddrivetest.Controllers;
 import com.example.clouddrivetest.Exceptions.DataErrorException;
 import com.example.clouddrivetest.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import com.example.clouddrivetest.UserRole;
@@ -16,18 +18,15 @@ public class SecurityController {
     private UserService userService;
 
     @Autowired
-    private ShaPasswordEncoder passwordEncoder;
+    public PasswordEncoder passwordEncoder;
 
-    @PostMapping("/newuser")
-    public String update(@RequestParam String login, @RequestParam String password) {
-        String passHash = passwordEncoder.encodePassword(password, null);
-
-        if ("".equals(login) ||
-                !userService.addUser(login, passHash, UserRole.USER)) {
+    @PostMapping("/add-user")
+    public ResponseEntity<Void> update(@RequestParam String login, @RequestParam String password) {
+        String passHash = passwordEncoder.encode(password);
+        if ("".equals(login) || !userService.addUser(login, passHash, UserRole.USER)) {
             throw new DataErrorException();
         }
-
-        return "redirect:/";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping("/login")

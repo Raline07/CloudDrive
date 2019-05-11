@@ -30,7 +30,7 @@ function regsend() {
     if (email.val() !== "" && password.val() === password2.val())
         $.ajax({
             type: 'POST',
-            url: '/newuser',
+            url: '/add-user',
             data: {
                 login: email.val(),
                 password: password.val()
