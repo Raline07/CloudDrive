@@ -1,7 +1,7 @@
-package com.drive.Zip;
+package com.example.clouddrivetest.Zip;
 
-import com.drive.Entity.CustomFile;
-import com.drive.UserService;
+import com.example.clouddrivetest.Entity.CustomFile;
+import com.example.clouddrivetest.UserService;
 
 import java.io.*;
 import java.net.URI;

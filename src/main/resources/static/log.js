@@ -15,16 +15,19 @@ function reg() {
 function regsend() {
     var email = $("#signupEmail");
     var password = $("#signupPass1");
+    var password2 = $("#signupPass2");
+
     var emailError = $("#regError");
     var passError = $("#passError");
 
-    if (email.val() == "") {
+    if (email.val() === "") {
         emailError.text('Empty field');
     } else emailError.text('');
-    if (password.val() != $("#signupPass2").val()) {
+    if (password.val() !== password2.val()) {
         passError.text('Passwords do not match');
+        return;
     } else passError.text('');
-    if (email.val() != "" && password.val() == $("#signupPass2").val())
+    if (email.val() !== "" && password.val() === password2.val())
         $.ajax({
             type: 'POST',
             url: '/newuser',
@@ -53,9 +56,7 @@ $(function () {
     $("#signup-box-link").click(function () {
         reg();
     });
-    $("#login").click(function () {
-        loginsend();
-    });
+
     $("#signup").click(function () {
         regsend();
     });

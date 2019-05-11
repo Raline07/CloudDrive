@@ -1,4 +1,4 @@
-package com.drive.DTO;
+package com.example.clouddrivetest.DTO;
 
 public class PageCountDTO {
     private final long count;

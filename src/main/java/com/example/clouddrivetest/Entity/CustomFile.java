@@ -1,11 +1,8 @@
-package com.drive.Entity;
-
-import lombok.NoArgsConstructor;
+package com.example.clouddrivetest.Entity;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
 public class CustomFile {
     @Id
     @GeneratedValue
@@ -26,6 +23,10 @@ public class CustomFile {
         this.size = size;
         this.date = date;
         this.path = path;
+    }
+
+    public CustomFile() {
+
     }
 
     public Long getId() {

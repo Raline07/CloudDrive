@@ -1,7 +1,7 @@
-package com.drive.Zip;
+package com.example.clouddrivetest.Zip;
 
 import org.springframework.stereotype.Component;
-import com.drive.UserService;
+import com.example.clouddrivetest.UserService;
 
 
 import java.util.List;

@@ -1,9 +1,9 @@
-package com.drive.DTO;
+package com.example.clouddrivetest.DTO;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.drive.Entity.CustomFile;
+import com.example.clouddrivetest.Entity.CustomFile;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class FileDTO {

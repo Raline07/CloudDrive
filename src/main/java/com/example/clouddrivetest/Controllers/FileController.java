@@ -1,9 +1,9 @@
-package com.drive.Controllers;
+package com.example.clouddrivetest.Controllers;
 
-import com.drive.DTO.FileDTO;
-import com.drive.DTO.PageCountDTO;
-import com.drive.UserService;
-import com.drive.Zip.ThreadPool;
+import com.example.clouddrivetest.DTO.FileDTO;
+import com.example.clouddrivetest.DTO.PageCountDTO;
+import com.example.clouddrivetest.UserService;
+import com.example.clouddrivetest.Zip.ThreadPool;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.User;
@@ -15,8 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.drive.Entity.CustomFile;
-import com.drive.Zip.FileData;
+import com.example.clouddrivetest.Entity.CustomFile;
+import com.example.clouddrivetest.Zip.FileData;
 
 import java.io.*;
 import java.net.URI;

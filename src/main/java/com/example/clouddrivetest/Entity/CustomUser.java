@@ -1,14 +1,12 @@
-package com.drive.Entity;
+package com.example.clouddrivetest.Entity;
 
-import com.drive.UserRole;
-import lombok.NoArgsConstructor;
+import com.example.clouddrivetest.UserRole;
 
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
 public class CustomUser {
     @Id
     @GeneratedValue
@@ -29,6 +27,10 @@ public class CustomUser {
         this.login = login;
         this.password = password;
         this.role = role;
+    }
+
+    public CustomUser() {
+
     }
 
     public Long getId() {
@@ -75,7 +77,7 @@ public class CustomUser {
         return null;
     }
 
-    public void addFiles(List<CustomFile> files){
+    public void addFiles(List<CustomFile> files) {
         this.files.addAll(files);
     }
 

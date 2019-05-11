@@ -1,14 +1,14 @@
-package com.drive;
+package com.example.clouddrivetest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.drive.Entity.CustomFile;
-import com.drive.Entity.CustomUser;
-import com.drive.Repositories.FileRepository;
-import com.drive.Repositories.UserRepository;
-import com.drive.DTO.FileDTO;
+import com.example.clouddrivetest.Entity.CustomFile;
+import com.example.clouddrivetest.Entity.CustomUser;
+import com.example.clouddrivetest.Repositories.FileRepository;
+import com.example.clouddrivetest.Repositories.UserRepository;
+import com.example.clouddrivetest.DTO.FileDTO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,12 @@
-package com.drive.Controllers;
+package com.example.clouddrivetest.Controllers;
 
-import com.drive.Exceptions.DataErrorException;
-import com.drive.UserService;
+import com.example.clouddrivetest.Exceptions.DataErrorException;
+import com.example.clouddrivetest.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import com.drive.UserRole;
+import com.example.clouddrivetest.UserRole;
 
 
 @Controller

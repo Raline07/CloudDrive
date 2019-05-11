@@ -1,6 +1,6 @@
-package com.drive.Repositories;
+package com.example.clouddrivetest.Repositories;
 
-import com.drive.Entity.CustomFile;
+import com.example.clouddrivetest.Entity.CustomFile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

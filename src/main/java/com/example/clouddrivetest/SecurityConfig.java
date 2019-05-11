@@ -1,4 +1,4 @@
-package com.drive;
+package com.example.clouddrivetest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

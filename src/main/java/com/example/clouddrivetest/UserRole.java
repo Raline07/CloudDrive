@@ -1,4 +1,4 @@
-package com.drive;
+package com.example.clouddrivetest;
 
 public enum UserRole {
     ADMIN, USER;
