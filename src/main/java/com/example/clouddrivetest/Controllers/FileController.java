@@ -6,6 +6,7 @@ import com.example.clouddrivetest.UserService;
 import com.example.clouddrivetest.Zip.ThreadPool;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,13 @@ import java.util.zip.ZipOutputStream;
 @Controller
 public class FileController {
 
+    private SimpMessagingTemplate template;
+
+    @Autowired
+    public FileController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
+
     @Autowired
     private UserService userService;
 
@@ -44,15 +52,14 @@ public class FileController {
     }
 
     @PostMapping("/files/upload")
-    public ResponseEntity<Void> FileUpload(@RequestParam(value = "files[]") MultipartFile[] multipartFile) throws IOException {
+    public ResponseEntity<String> FileUpload(@RequestParam(value = "files[]") MultipartFile[] multipartFile) throws IOException {
         String login = getLogin();
-        userService.setUploading(login, true);
         List<FileData> data = new ArrayList<>();
         for (MultipartFile mf : multipartFile) {
             data.add(new FileData(mf.getOriginalFilename(), mf.getSize(), mf.getInputStream()));
         }
-        threadPool.createArch(login, data);
-        return new ResponseEntity<>(HttpStatus.OK);
+        threadPool.createArch(login, data, template);
+        return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
     @PostMapping("/files/delete")
@@ -60,15 +67,6 @@ public class FileController {
         String login = getLogin();
         threadPool.deleteArch(login, userService.deleteFiles(login, names));
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/files/updating")
-    @ResponseBody
-    public PageCountDTO updating() {
-        String login = getLogin();
-        if (userService.findByLogin(login).isUploading())
-            return PageCountDTO.of(userService.count(login), 15);
-        return null;
     }
 
     @GetMapping("/files/count")

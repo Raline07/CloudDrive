@@ -1,7 +1,9 @@
 package com.example.clouddrivetest.Zip;
 
+import com.example.clouddrivetest.DTO.FileDTO;
 import com.example.clouddrivetest.Entity.CustomFile;
 import com.example.clouddrivetest.UserService;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.io.*;
 import java.net.URI;
@@ -19,6 +21,7 @@ public class ZipThread implements Runnable {
         put("create", "true");
     }};
 
+    private SimpMessagingTemplate template;
     private Thread thread;
 
     private String user;
@@ -42,10 +45,11 @@ public class ZipThread implements Runnable {
         thread.start();
     }
 
-    public void createArch(String user, List<FileData> data) {
+    public void createArch(String user, List<FileData> data, SimpMessagingTemplate template) {
         this.action = Action.CREATE;
         this.user = user;
         this.data = data;
+        this.template = template;
         thread = new Thread(this);
         thread.start();
     }
@@ -75,12 +79,11 @@ public class ZipThread implements Runnable {
             e.printStackTrace();
         }
         userService.addFiles(user, files);
-        try {
-            Thread.sleep(800);
-            userService.setUploading(user, false);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        List<FileDTO> dtos = new ArrayList<>();
+        for (CustomFile file :files) {
+            dtos.add(FileDTO.from(file));
         }
+        template.convertAndSend("/uploading/" + user, dtos);
     }
 
     private void deleteArchTh() {

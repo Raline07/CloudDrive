@@ -1,5 +1,6 @@
 package com.example.clouddrivetest.Zip;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import com.example.clouddrivetest.UserService;
 
@@ -18,8 +19,8 @@ public class ThreadPool extends AbstractPool<ZipThread> {
         }
     }
 
-    public void createArch(String user, List<FileData> data) {
-        check().createArch(user, data);
+    public void createArch(String user, List<FileData> data, SimpMessagingTemplate template) {
+        check().createArch(user, data, template);
     }
 
     public void deleteArch(String user, List<String> path) {

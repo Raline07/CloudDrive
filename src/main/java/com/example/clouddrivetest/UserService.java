@@ -100,13 +100,6 @@ public class UserService {
         return files;
     }
 
-    @Transactional
-    public void setUploading(String login, boolean b) {
-        CustomUser user = userRepository.findByLogin(login);
-        user.setUploading(b);
-        userRepository.save(user);
-    }
-
     @Transactional(readOnly = true)
     public Long count(String login) {
         return fileRepository.countByAccountLogin(login);

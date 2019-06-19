@@ -1,12 +1,55 @@
 var fileNum;
-var repeater;
 var uploadButton;
+
+var stompClient = null;
+
+function connectWebSocket(name) {
+    var socket = new SockJS('/websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/uploading/' + name, function (files) {
+            uploadButton.addClass("upload");
+            uploadButton.removeClass("inactive");
+            uploadButton.attr("disabled", false);
+            var data = JSON.parse(files.body);
+            if (data.length < 15) {
+                data.forEach(function (elem) {
+                    var element = document.getElementById(elem.name);
+                    if (element != null){
+                        element.remove();
+                    }
+                });
+                var table = $("#conversation > tbody");
+                for (var i = 0; i < table.length + data.length - 15; i++) {
+                    table[table.length - (i + 1)].remove();
+                }
+                addNew(data);
+            } else {
+                $("#conversation > tbody").empty();
+                addNew(data.slice(0, 15));
+            }
+            loadPages();
+        });
+    });
+}
+
+function addNew(data) {
+    for (var i = 0; i < data.length; i++) {
+        $('#conversation > tbody:last-child').prepend(
+            $('<tr id=' + data[i].name + '>')
+                .append($('<td>').append('<input type="checkbox" class="check" id="' + data[i].name + '">'))
+                .append($('<td>').append(data[i].name))
+                .append($('<td>').append(data[i].date))
+                .append($('<td>').append(formatBytes(data[i].size)))
+        );
+    }
+}
 
 function connect() {
     var data = new FormData($('#form'));
     var files = document.getElementById('files').files;
-    var i;
-    for (i = 0; i < files.length; i++)
+    for (var i = 0; i < files.length; i++)
         data.append('files[]', files[i]);
 
     uploadButton.addClass("inactive");
@@ -21,29 +64,10 @@ function connect() {
         processData: false,
         method: 'POST',
         type: 'POST', // For jQuery < 1.9
-        success: function () {
-            repeater = setInterval(check, 500);
+        success: function (d, e) {
+            connectWebSocket(d);
         }
     });
-}
-
-function check() {
-    if (!document.hidden) {
-        $.getJSON('/files/updating', function (data) {
-            console.log(data.count);
-            if (data.count > fileNum) {
-                loadData(0);
-                loadPages()
-            }
-        }).fail(function () {
-            if (uploadButton.hasClass("inactive")) {
-                uploadButton.addClass("upload");
-                uploadButton.removeClass("inactive");
-                uploadButton.attr("disabled", false);
-                clearInterval(repeater);
-            }
-        });
-    }
 }
 
 function loadPages() {
@@ -68,8 +92,8 @@ function loadPages() {
 function loadData(page) {
     $.getJSON('/files?page=' + page, function (data) {
         $("#conversation > tbody").empty();
-        var i;
-        for (i = 0; i < data.length; i++) {
+        console.log(data);
+        for (var i = 0; i < data.length; i++) {
             $('#conversation > tbody:last-child').append(
                 $('<tr id=' + data[i].name + '>')
                     .append($('<td>').append('<input type="checkbox" class="check" id="' + data[i].name + '">'))

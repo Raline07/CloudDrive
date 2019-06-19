@@ -18,8 +18,6 @@ public class CustomUser {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    private boolean isUploading = false;
-
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<CustomFile> files = new LinkedList<>();
 
@@ -79,13 +77,5 @@ public class CustomUser {
 
     public void addFiles(List<CustomFile> files) {
         this.files.addAll(files);
-    }
-
-    public boolean isUploading() {
-        return isUploading;
-    }
-
-    public void setUploading(boolean uploading) {
-        isUploading = uploading;
     }
 }
