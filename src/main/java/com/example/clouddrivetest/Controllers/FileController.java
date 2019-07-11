@@ -59,7 +59,8 @@ public class FileController {
             data.add(new FileData(mf.getOriginalFilename(), mf.getSize(), mf.getInputStream()));
         }
         threadPool.createArch(login, data, template);
-        return new ResponseEntity<>(login, HttpStatus.OK);
+        System.out.println("Start stomp "+login.hashCode());
+        return new ResponseEntity<>(""+login.hashCode(), HttpStatus.OK);
     }
 
     @PostMapping("/files/delete")

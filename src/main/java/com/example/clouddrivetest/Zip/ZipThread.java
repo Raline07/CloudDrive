@@ -80,10 +80,11 @@ public class ZipThread implements Runnable {
         }
         userService.addFiles(user, files);
         List<FileDTO> dtos = new ArrayList<>();
-        for (CustomFile file :files) {
+        for (CustomFile file : files) {
             dtos.add(FileDTO.from(file));
         }
-        template.convertAndSend("/uploading/" + user, dtos);
+        template.convertAndSend("/uploading/" + user.hashCode(), dtos);
+        System.out.println("Files sended " + user.hashCode());
     }
 
     private void deleteArchTh() {
