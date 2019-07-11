@@ -47,7 +47,7 @@ function addNew(data) {
 }
 
 function connect() {
-    var data = new FormData($('#form'));
+    var data = new FormData();
     var files = document.getElementById('files').files;
     for (var i = 0; i < files.length; i++)
         data.append('files[]', files[i]);

@@ -16,9 +16,9 @@
     Javascript and reload this page!</h2></noscript>
 <div class="container">
     <div class="header">
-        <form class="form" id="form" action="/files/upload" enctype="multipart/form-data" method="POST">
-            <input type="file" id="files" class="upload" name="files[]" multiple/>
-        </form>
+        <div class="form">
+            <input type="file" id="files" class="upload" name="files[]" multiple="">
+        </div>
         <button id="delete" type="submit">Delete</button>
         <button id="download" type="submit">Download</button>
         <button class="right-button" type="submit" onclick="window.location = '/logout'">Logout</button>
