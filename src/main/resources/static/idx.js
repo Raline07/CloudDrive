@@ -6,9 +6,11 @@ var stompClient = null;
 function connectWebSocket(name) {
     var socket = new SockJS('/websocket');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({
+        "user": name
+    }, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/uploading/' + name, function (files) {
+        stompClient.subscribe('/user/uploading', function (files) {
             uploadButton.addClass("upload");
             uploadButton.removeClass("inactive");
             uploadButton.attr("disabled", false);
@@ -16,7 +18,7 @@ function connectWebSocket(name) {
             if (data.length < 15) {
                 data.forEach(function (elem) {
                     var element = document.getElementById(elem.name);
-                    if (element != null){
+                    if (element != null) {
                         element.remove();
                     }
                 });
@@ -65,7 +67,6 @@ function connect() {
         method: 'POST',
         type: 'POST', // For jQuery < 1.9
         success: function (d, e) {
-            connectWebSocket(d);
         }
     });
 }
@@ -161,5 +162,8 @@ $(function () {
     uploadButton = $("#files");
     uploadButton.on('change', function () {
         connect()
+    });
+    $.getJSON('/name', function (name) {
+        connectWebSocket(name);
     });
 });

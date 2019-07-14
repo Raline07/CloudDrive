@@ -6,7 +6,7 @@ import com.example.clouddrivetest.UserService;
 import com.example.clouddrivetest.Zip.ThreadPool;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,19 +22,13 @@ import com.example.clouddrivetest.Zip.FileData;
 import java.io.*;
 import java.net.URI;
 import java.nio.file.*;
+import java.security.Principal;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Controller
 public class FileController {
-
-    private SimpMessagingTemplate template;
-
-    @Autowired
-    public FileController(SimpMessagingTemplate template) {
-        this.template = template;
-    }
 
     @Autowired
     private UserService userService;
@@ -51,16 +45,21 @@ public class FileController {
         return "index";
     }
 
+    @GetMapping("/name")
+    public ResponseEntity<String> getName() {
+        String login = getLogin();
+        return new ResponseEntity<>(""+login.hashCode(), HttpStatus.OK);
+    }
+
     @PostMapping("/files/upload")
-    public ResponseEntity<String> FileUpload(@RequestParam(value = "files[]") MultipartFile[] multipartFile) throws IOException {
+    public ResponseEntity<Void> FileUpload(@RequestParam(value = "files[]") MultipartFile[] multipartFile) throws IOException {
         String login = getLogin();
         List<FileData> data = new ArrayList<>();
         for (MultipartFile mf : multipartFile) {
             data.add(new FileData(mf.getOriginalFilename(), mf.getSize(), mf.getInputStream()));
         }
-        threadPool.createArch(login, data, template);
-        System.out.println("Start stomp "+login.hashCode());
-        return new ResponseEntity<>(""+login.hashCode(), HttpStatus.OK);
+        threadPool.createArch(login, data);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/files/delete")

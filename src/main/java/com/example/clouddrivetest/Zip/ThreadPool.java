@@ -1,26 +1,25 @@
 package com.example.clouddrivetest.Zip;
 
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
-import com.example.clouddrivetest.UserService;
+
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 
-@Component
-public class ThreadPool extends AbstractPool<ZipThread> {
+@Service
+public class ThreadPool extends AbstractPool<ZipService.ZipThread> {
 
     private final int maxThreads = Runtime.getRuntime().availableProcessors();
 
-    public ThreadPool(UserService userService) {
-        add(new ZipThread(userService, this));
-        for (int i = 1; i < maxThreads; i++) {
-            add(new ZipThread());
+    public ThreadPool(ZipService zipService) {
+        zipService.setThreadPool(this);
+        for (int i = 0; i < maxThreads; i++) {
+            add(zipService.createThread());
         }
     }
 
-    public void createArch(String user, List<FileData> data, SimpMessagingTemplate template) {
-        check().createArch(user, data, template);
+    public void createArch(String user, List<FileData> data) {
+        check().createArch(user, data);
     }
 
     public void deleteArch(String user, List<String> path) {
@@ -28,8 +27,8 @@ public class ThreadPool extends AbstractPool<ZipThread> {
 
     }
 
-    private synchronized ZipThread check() {
-        ZipThread zipThread;
+    private synchronized ZipService.ZipThread check() {
+        ZipService.ZipThread zipThread;
         while (true) {
             zipThread = get();
             if (zipThread == null) {
